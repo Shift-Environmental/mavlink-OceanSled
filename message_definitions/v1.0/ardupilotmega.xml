@@ -1602,7 +1602,7 @@
       <field type="uint8_t" name="leak">True if leak is detected onboard.</field>
       <field type="float" name="temp" units="C">Current electronics temp.</field>
       <field type="float" name="humid" units="%">Current electronics humidity.</field>
-	  <field type="float" name="ppm" units="ppm">TVOC sensor reading.</field>
+      <field type="float" name="ppm" units="ppm">TVOC sensor reading.</field>
     </message>
     <!-- ardupilot specific mavlink2 messages starting at 11000-->
     <message id="11000" name="DEVICE_OP_READ">
