@@ -1585,6 +1585,15 @@
       <field type="float" name="rpm1">RPM Sensor1.</field>
       <field type="float" name="rpm2">RPM Sensor2.</field>
     </message>
+    <!--  OceanSled message definitions  -->
+    <message id="500" name="ARDUINO_SENSE">
+      <description>Contains OceanSled base sensor data</description>
+      <field type="uint64_t" name="time_boot_ms" units="ms">Time since system boot.</field>
+      <field type="uint8_t" name="leak">True if leak is detected onboard.</field>
+      <field type="float" name="temp" units="C">Current electronics temp.</field>
+      <field type="float" name="humid" units="%">Current electronics humidity.</field>
+	  <field type="float" name="ppm" units="ppm">TVOC sensor reading.</field>
+    </message>
     <!-- ardupilot specific mavlink2 messages starting at 11000-->
     <message id="11000" name="DEVICE_OP_READ">
       <description>Read registers for a device.</description>
