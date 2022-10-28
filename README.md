@@ -1,5 +1,7 @@
 [![Build Status](https://github.com/ArduPilot/mavlink/workflows/Test%20and%20deploy/badge.svg)](https://github.com/ArduPilot/mavlink/actions?query=branch%3Amaster)
 
+> MAVLink Relay Script (mav_link_relay.py) is in the root folder of this project: https://github.com/Shift-Environmental/shift-platform
+
 ## MAVLink ##
 
 MAVLink -- Micro Air Vehicle Message Marshalling Library.
