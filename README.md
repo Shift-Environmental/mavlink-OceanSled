@@ -19,6 +19,13 @@ Key Links:
 * [Discussion/Support](https://mavlink.io/en/#support) (Slack)
 * [Contributing](https://mavlink.io/en/contributing/contributing.html)
 
+## Building MAVLink ##
+To run the Python examples and take advantage of the pymavlink, it has to be built.<br>
+1. Follow the docs for generating a custom dialect: [mavlink.io](https://mavlink.io/en/mavgen_python/#generate-a-custom-mavlink-dialect)
+2. Add the path to the pymavlink library's root directory to the PYTHONPATH system environment variable. (Create the environment variable if it doesn't exist)
+
+For C++ the CPLUS_INCLUDE_PATH environment variable should include the path to the generated header files.
+
 ### License ###
 
 MAVLink is licensed under the terms of the Lesser General Public License (version 3) of the Free Software Foundation (LGPLv3). The C-language version of MAVLink is a header-only library which is generated as MIT-licensed code. MAVLink can therefore be used without limits in any closed-source application without publishing the source code of the closed-source application.
