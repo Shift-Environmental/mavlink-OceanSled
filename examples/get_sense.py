@@ -28,7 +28,7 @@ with open('pos.csv', 'w') as f:
                 print('Error receiving message')
                 sleep(1)
             else:
-                print(f'{msg.get_type()}, {com.sysid}, {msg.time_boot_ms}, {msg.leak}, {msg.temp}, {msg.humid}, {msg.ppm}\n')
+                print(f'{msg.get_type()}, {com.sysid}, {msg.time_boot_ms}, {msg.status}\n')
         except KeyboardInterrupt:
             print("Exiting...")
             exit()
