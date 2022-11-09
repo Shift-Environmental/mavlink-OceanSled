@@ -1,5 +1,4 @@
 from pymavlink import mavutil
-from time import sleep
 import socketio
 
 # Start listening to serial port
@@ -24,7 +23,7 @@ message_types = [
 
 def to_dict(msg):
     for name in message_types:
-        if msg.get_type() == name:
+        if msg.get_type() == name: # Check if the message type is wanted
             message_dict = {name: {}} # Create message dictionary
 
             for field in msg.fieldnames:
@@ -32,27 +31,21 @@ def to_dict(msg):
                     message_dict[name][field] = getattr(msg, field)
                 except:
                     return False
-                    break
             return message_dict
     return False
 
 
 while True:
     try:
-        ''' Get message and error check '''
+        # Get message and error check
         msg = com.recv_match();
         if msg is not None:                
-            ''' Convert to dictionary '''
+            # Convert message to dictionary and relay it
             msg_dict = to_dict(msg)
-            if not msg_dict:
-                continue
-                #print(f'Ignoring: {msg.get_type()}')
-            else:
+            if msg_dict:
                 print(f'Relaying msg: {msg.get_type()}')
                 sio.emit("mavlink_data", msg_dict)
 
     except KeyboardInterrupt:
         print("Exiting...")
         exit()
-
-exit()
