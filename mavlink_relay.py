@@ -4,12 +4,15 @@ import socketio
 # Start listening to serial port
 com = mavutil.mavlink_connection('udpin:localhost:1234')
 
+# Start listening to Emulator (SITL) on TCP socket
+# com = mavutil.mavlink_connection('tcp:127.0.0.1:5760')
+
 # TCP Relay Server
-SOCKET_URL="http://localhost:5000"
+SOCKET_URL="http://localhost:5001"
 sio = socketio.Client()
 print(f"\nConnecting to Socket: {SOCKET_URL}")
 sio.connect(SOCKET_URL)
-print("Connected")
+print("Socket Connected")
 
 # Message types to relay (mavlink.io/en/messages/)
 message_types = [
