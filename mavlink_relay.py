@@ -35,14 +35,17 @@ def connect_sio():
 
 def to_dict(msg):
     print(msg.get_type())
-    for message_type in RELEVANT_MESSAGES:
-        if msg.get_type() == message_type: # Check if the message type is relevant
-            message_dict = {message_type: {}} # Create message dictionary
-            message_dict['identity'] = { 'system': mavlink.target_system, 'component': mavlink.target_component }
+    for msg_type in RELEVANT_MESSAGES:
+        if msg.get_type() == msg_type: # Check if the message type is relevant
+            # Create message dictionary
+            message_dict = {
+               'system_id': mavlink.target_system,
+               'msg_type': msg_type,
+               'data': {}}
 
             for field in msg.fieldnames:
                 try:
-                    message_dict[message_type][field] = getattr(msg, field)
+                    message_dict['data'][field] = getattr(msg, field)
                 except:
                      return False
             return message_dict
@@ -54,8 +57,8 @@ def listen(mavlink):
       try:
          # Get message and error check
          msg = mavlink.recv_match();
-         if msg is not None:   
-            silence = 0             
+         if msg is not None:
+            silence = 0
             # Convert message to dictionary and relay it
             msg_dict = to_dict(msg)
             if msg_dict:
