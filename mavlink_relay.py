@@ -7,6 +7,7 @@ import time
 MAVLINK_HOST = 'tcp:127.0.0.1:5760' # SITL
 MESSAGE_FREQUENCY = 2 # Number of seconds before each message poll
 MAVLINK_CONNECTION_TIMEOUT = 2 # Try to reconnect after this many failed message polls
+SOCKET_URL="http://localhost:5001"
 
 RELEVANT_MESSAGES = [
    'ARDUINO_SENSE',
@@ -26,7 +27,6 @@ def connect_mavlink():
 
 def connect_sio():
    # TCP Relay Server
-   SOCKET_URL="http://localhost:5001"
    sio = socketio.Client()
    print(f"\nConnecting to Socket: {SOCKET_URL}")
    sio.connect(SOCKET_URL)
