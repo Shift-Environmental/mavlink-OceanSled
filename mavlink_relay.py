@@ -44,19 +44,27 @@ def to_dict(msg):
                'data': {}}
 
             for field in msg.fieldnames:
-                try:
-                    message_dict['data'][field] = getattr(msg, field)
-                except:
-                     return False
+               try:
+                  message_dict['data'][field] = getattr(msg, field)
+               except:
+                  return False
             return message_dict
     return False
 
+
 def listen(mavlink):
-   silence = 0
+   relayed_messages = {}
    while True:
       try:
          # Get message and error check
          msg = mavlink.recv_match();
+
+         # LIMIT MESSAGES TO 1 PER TIC
+         if(msg.get_type() not in relayed_messages):
+            relayed_messages[msg.get_type()] = True
+         else: # MESSAGE ALREADY SENT THIS TIC
+            continue
+
          if msg is not None:
             silence = 0
             # Convert message to dictionary and relay it
@@ -66,6 +74,7 @@ def listen(mavlink):
                sio.emit("mavlink_data", msg_dict)
          else:
             # No messages. Try again soon
+            relayed_messages = {} #CLEAR SENT MESSAGES
             time.sleep(MESSAGE_FREQUENCY)
             silence += 1
             if(silence >= MAVLINK_CONNECTION_TIMEOUT):
@@ -74,6 +83,7 @@ def listen(mavlink):
                mavlink = connect_mavlink()
 
       except Exception as e:
+         relayed_messages = {} #CLEAR SENT MESSAGES
          print("Exception: ", e)
          # Something went wrong. Try again soon
          time.sleep(MESSAGE_FREQUENCY)
