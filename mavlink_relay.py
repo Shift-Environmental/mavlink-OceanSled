@@ -3,8 +3,8 @@ import socketio
 import time
 
 
-# MAVLINK_HOST = 'udpin:127.0.0.1:5760' # Serial Port / QGC Relay
-MAVLINK_HOST = 'tcp:127.0.0.1:5760' # SITL
+MAVLINK_HOST = 'udpin:127.0.0.1:5760' # Serial Port / QGC Relay
+# MAVLINK_HOST = 'tcp:127.0.0.1:5760' # SITL
 MESSAGE_FREQUENCY = 2 # Number of seconds before each message poll
 MAVLINK_CONNECTION_TIMEOUT = 2 # Try to reconnect after this many failed message polls
 SOCKET_URL="http://localhost:5001"
@@ -13,6 +13,7 @@ RELEVANT_MESSAGES = [
    'ARDUINO_SENSE',
    'HEARTBEAT',
    'GLOBAL_POSITION_INT',
+   'ATTITUDE',
    'GPS_STATUS',
    'SYS_STATUS',
    'RADIO_STATUS'
