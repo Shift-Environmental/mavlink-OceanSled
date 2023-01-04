@@ -16,9 +16,6 @@ RELEVANT_MESSAGES = [
    'ATTITUDE',
    "BATTERY_STATUS",
    "DISTANCE_SENSOR",
-   'GPS_STATUS',
-   'SYS_STATUS',
-   'RADIO_STATUS'
 ]
 
 def connect_mavlink():
@@ -43,6 +40,7 @@ def to_dict(msg):
             # Create message dictionary
             message_dict = {
                'system_id': mavlink.target_system,
+               #'component_id': mavlink.target_component,
                'msg_type': msg_type,
                'data': {}}
 
