@@ -1,0 +1,85 @@
+<!-- This document is only for reference -->
+<message id="0" name="HEARTBEAT">
+   <description>The heartbeat message shows that a system or component is present and responding. The type and autopilot fields (along with the message component id), allow the receiving system to treat further messages from this system appropriately (e.g. by laying out the user interface based on the autopilot). This microservice is documented at https://mavlink.io/en/services/heartbeat.html</description>
+   <field type="uint8_t" name="type" enum="MAV_TYPE">Vehicle or component type. For a flight controller component the vehicle type (quadrotor, helicopter, etc.). For other components the component type (e.g. camera, gimbal, etc.). This should be used in preference to component id for identifying the component type.</field>
+   <field type="uint8_t" name="autopilot" enum="MAV_AUTOPILOT">Autopilot type / class. Use MAV_AUTOPILOT_INVALID for components that are not flight controllers.</field>
+   <field type="uint8_t" name="base_mode" enum="MAV_MODE_FLAG" display="bitmask">System mode bitmap.</field>
+   <field type="uint32_t" name="custom_mode">A bitfield for use for autopilot-specific flags</field>
+   <field type="uint8_t" name="system_status" enum="MAV_STATE">System status flag.</field>
+   <field type="uint8_t_mavlink_version" name="mavlink_version">MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version</field>
+</message>
+
+<message id="33" name="GLOBAL_POSITION_INT">
+   <description>The filtered global position (e.g. fused GPS and accelerometers). The position is in GPS-frame (right-handed, Z-up). It
+   is designed as scaled integer message since the resolution of float is not sufficient.</description>
+   <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
+   <field type="int32_t" name="lat" units="degE7">Latitude, expressed</field>
+   <field type="int32_t" name="lon" units="degE7">Longitude, expressed</field>
+   <field type="int32_t" name="alt" units="mm">Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.</field>
+   <field type="int32_t" name="relative_alt" units="mm">Altitude above ground</field>
+   <field type="int16_t" name="vx" units="cm/s">Ground X Speed (Latitude, positive north)</field>
+   <field type="int16_t" name="vy" units="cm/s">Ground Y Speed (Longitude, positive east)</field>
+   <field type="int16_t" name="vz" units="cm/s">Ground Z Speed (Altitude, positive down)</field>
+   <field type="uint16_t" name="hdg" units="cdeg">Vehicle heading (yaw angle), 0.0..359.99 degrees. If unknown, set to: UINT16_MAX</field>
+</message>
+
+<message id="1" name="SYS_STATUS">
+   <description>The general system state. If the system is following the MAVLink standard, the system state is mainly defined by three orthogonal states/modes: The system mode, which is either LOCKED (motors shut down and locked), MANUAL (system under RC control), GUIDED (system with autonomous position control, position setpoint controlled manually) or AUTO (system guided by path/waypoint planner). The NAV_MODE defined the current flight state: LIFTOFF (often an open-loop maneuver), LANDING, WAYPOINTS or VECTOR. This represents the internal navigation state machine. The system status shows whether the system is currently active or not and if an emergency occurred. During the CRITICAL and EMERGENCY states the MAV is still considered to be active, but should start emergency procedures autonomously. After a failure occurred it should first move from active to critical to allow manual intervention and then move to emergency after a certain timeout.</description>
+   <field type="uint32_t" name="onboard_control_sensors_present" enum="MAV_SYS_STATUS_SENSOR" display="bitmask" print_format="0x%04x">Bitmap showing which onboard controllers and sensors are present. Value of 0: not present. Value of 1: present.</field>
+   <field type="uint32_t" name="onboard_control_sensors_enabled" enum="MAV_SYS_STATUS_SENSOR" display="bitmask" print_format="0x%04x">Bitmap showing which onboard controllers and sensors are enabled:  Value of 0: not enabled. Value of 1: enabled.</field>
+   <field type="uint32_t" name="onboard_control_sensors_health" enum="MAV_SYS_STATUS_SENSOR" display="bitmask" print_format="0x%04x">Bitmap showing which onboard controllers and sensors have an error (or are operational). Value of 0: error. Value of 1: healthy.</field>
+   <field type="uint16_t" name="load" units="d%">Maximum usage in percent of the mainloop time. Values: [0-1000] - should always be below 1000</field>
+   <field type="uint16_t" name="voltage_battery" units="mV">Battery voltage, UINT16_MAX: Voltage not sent by autopilot</field>
+   <field type="int16_t" name="current_battery" units="cA">Battery current, -1: Current not sent by autopilot</field>
+   <field type="int8_t" name="battery_remaining" units="%">Battery energy remaining, -1: Battery remaining energy not sent by autopilot</field>
+   <field type="uint16_t" name="drop_rate_comm" units="c%">Communication drop rate, (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)</field>
+   <field type="uint16_t" name="errors_comm">Communication errors (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)</field>
+   <field type="uint16_t" name="errors_count1">Autopilot-specific errors</field>
+   <field type="uint16_t" name="errors_count2">Autopilot-specific errors</field>
+   <field type="uint16_t" name="errors_count3">Autopilot-specific errors</field>
+   <field type="uint16_t" name="errors_count4">Autopilot-specific errors</field>
+</message>
+
+<message id="25" name="GPS_STATUS">
+   <description>The positioning status, as reported by GPS. This message is intended to display status information about each satellite visible to the receiver. See message GLOBAL_POSITION for the global position estimate. This message can contain information for up to 20 satellites.</description>
+   <field type="uint8_t" name="satellites_visible">Number of satellites visible</field>
+   <field type="uint8_t[20]" name="satellite_prn">Global satellite ID</field>
+   <field type="uint8_t[20]" name="satellite_used">0: Satellite not used, 1: used for localization</field>
+   <field type="uint8_t[20]" name="satellite_elevation" units="deg">Elevation (0: right on top of receiver, 90: on the horizon) of satellite</field>
+   <field type="uint8_t[20]" name="satellite_azimuth" units="deg">Direction of satellite, 0: 0 deg, 255: 360 deg.</field>
+   <field type="uint8_t[20]" name="satellite_snr" units="dB">Signal to noise ratio of satellite</field>
+</message>
+
+<message id="30" name="ATTITUDE">
+   <description>The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right).</description>
+   <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
+   <field type="float" name="roll" units="rad">Roll angle (-pi..+pi)</field>
+   <field type="float" name="pitch" units="rad">Pitch angle (-pi..+pi)</field>
+   <field type="float" name="yaw" units="rad">Yaw angle (-pi..+pi)</field>
+   <field type="float" name="rollspeed" units="rad/s">Roll angular speed</field>
+   <field type="float" name="pitchspeed" units="rad/s">Pitch angular speed</field>
+   <field type="float" name="yawspeed" units="rad/s">Yaw angular speed</field>
+</message>
+
+<message id="109" name="RADIO_STATUS">
+   <description>Status generated by radio and injected into MAVLink stream.</description>
+   <field type="uint8_t" name="rssi">Local (message sender) recieved signal strength indication in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.</field>
+   <field type="uint8_t" name="remrssi">Remote (message receiver) signal strength indication in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.</field>
+   <field type="uint8_t" name="txbuf" units="%">Remaining free transmitter buffer space.</field>
+   <field type="uint8_t" name="noise">Local background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios). Values: [0-254], 255: invalid/unknown.</field>
+   <field type="uint8_t" name="remnoise">Remote background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios). Values: [0-254], 255: invalid/unknown.</field>
+   <field type="uint16_t" name="rxerrors">Count of radio packet receive errors (since boot).</field>
+   <field type="uint16_t" name="fixed">Count of error corrected radio packets (since boot).</field>
+</message>
+
+<message id="500" name="ARDUINO_SENSE">
+   <description>Contains OceanSled base sensor data</description>
+   <field type="uint64_t" name="time_boot_ms" units="ms">Time since system boot.</field>
+   <field type="uint8_t" name="leak">True if leak is detected onboard.</field>
+   <field type="float" name="temp" units="C">Current electronics temp.</field>
+   <field type="float" name="humid" units="%">Current electronics humidity.</field>
+   <field type="float" name="ppm" units="ppm">TVOC sensor reading.</field>
+   <field type="float" name="pan" units="deg">Pan position of PTZ cam.</field>
+   <field type="float" name="tilt" units="deg">Tilt position of PTZ cam.</field>
+   <field type="uint8_t" name="status">OceanSled system status bitset.</field>
+</message>
