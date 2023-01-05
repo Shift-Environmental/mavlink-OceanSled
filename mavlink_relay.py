@@ -1,10 +1,17 @@
+import argparse
 from pymavlink import mavutil
 import socketio
 import time
 
+parser = argparse.ArgumentParser(description='Command Line Arguments')
+parser.add_argument('--host', default='sled', help='Mavlink Host: sled (default) | sim')
+args = parser.parse_args()
 
-MAVLINK_HOST = 'udpin:127.0.0.1:5760' # Serial Port / QGC Relay
-# MAVLINK_HOST = 'tcp:127.0.0.1:5760' # SITL
+if args.host == 'sim':
+   MAVLINK_HOST = 'tcp:127.0.0.1:5760' # SITL
+else:
+   MAVLINK_HOST = 'udpin:127.0.0.1:5760' # Serial Port / QGC Relay
+
 MESSAGE_FREQUENCY = 2 # Number of seconds before each message poll
 MAVLINK_CONNECTION_TIMEOUT = 2 # Try to reconnect after this many failed message polls
 SOCKET_URL="http://localhost:5001"
