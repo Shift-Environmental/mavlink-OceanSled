@@ -12,8 +12,10 @@ if args.host == 'sim':
 else:
    MAVLINK_HOST = 'udpin:127.0.0.1:5760' # Serial Port / QGC Relay
 
-MESSAGE_FREQUENCY = 2 # Number of seconds before each message poll
-MAVLINK_CONNECTION_TIMEOUT = 2 # Try to reconnect after this many failed message polls
+MAVLINK_HOST = 'udpin:127.0.0.1:1234' # Serial Port / QGC Relay
+# MAVLINK_HOST = 'tcp:127.0.0.1:5760' # SITL
+MESSAGE_FREQUENCY = 0.5 # Number of seconds before each message poll
+MAVLINK_CONNECTION_TIMEOUT = 10 # Try to reconnect after this many failed message polls
 SOCKET_URL="http://localhost:5001"
 
 RELEVANT_MESSAGES = [
@@ -21,9 +23,8 @@ RELEVANT_MESSAGES = [
    'HEARTBEAT',
    'GLOBAL_POSITION_INT',
    'ATTITUDE',
-   'GPS_STATUS',
-   'SYS_STATUS',
-   'RADIO_STATUS'
+   "BATTERY_STATUS",
+   "DISTANCE_SENSOR",
 ]
 
 def connect_mavlink():
@@ -48,6 +49,7 @@ def to_dict(msg):
             # Create message dictionary
             message_dict = {
                'system_id': mavlink.target_system,
+               #'component_id': mavlink.target_component,
                'msg_type': msg_type,
                'data': {}}
 
