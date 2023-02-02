@@ -16,7 +16,7 @@ MAVLINK_HOST = 'udpin:127.0.0.1:1234' # Serial Port / QGC Relay
 # MAVLINK_HOST = 'tcp:127.0.0.1:5760' # SITL
 MESSAGE_FREQUENCY = 0.5 # Number of seconds before each message poll
 MAVLINK_CONNECTION_TIMEOUT = 10 # Try to reconnect after this many failed message polls
-SOCKET_URL="http://localhost:5001"
+SOCKET_URL="http://localhost:8001"
 
 RELEVANT_MESSAGES = [
    'ARDUINO_SENSE',
