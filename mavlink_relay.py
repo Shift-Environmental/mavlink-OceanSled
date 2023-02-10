@@ -25,6 +25,7 @@ RELEVANT_MESSAGES = [
    'ATTITUDE',
    "BATTERY_STATUS",
    "DISTANCE_SENSOR",
+   "VFR_HUD"
 ]
 
 def connect_mavlink():
